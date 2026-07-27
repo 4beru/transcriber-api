@@ -1,6 +1,6 @@
 {
   "server": {
-    "port": 8080,
+    "port": 8088,
     "host": "0.0.0.0",
     "read_timeout": 20,
     "websocket": {
@@ -11,8 +11,8 @@
       "enable_compression": true,
       "allow_all_origins": true,
       "allowed_origins": [
-        "http://localhost:8080",
-        "https://localhost:8080"
+        "http://localhost:8088",
+        "https://localhost:8088"
       ]
     }
   },
@@ -39,10 +39,10 @@
     }
   },
   "recognition": {
-    "model_path": "models/asr/Fun-ASR-Nano-2512-8bit/model.int8.onnx",
-    "tokens_path": "models/asr/Fun-ASR-Nano-2512-8bit/tokens.txt",
+    "model_path": "models/asr/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.int8.onnx",
+    "tokens_path": "models/asr/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt",
     "language": "auto",
-    "use_inverse_text_normalization": false,
+    "use_inverse_text_normalization": true,
     "num_threads": 16,
     "provider": "cpu",
     "debug": false

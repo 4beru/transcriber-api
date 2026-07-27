@@ -27,7 +27,7 @@ RUN pip3 install --no-cache-dir modelscope -i https://mirrors.aliyun.com/pypi/si
 COPY --from=builder /app/asr_server .
 # 创建模型目录
 RUN mkdir -p models/vad/silero_vad \
-    && mkdir -p models/asr/Fun-ASR-Nano-2512-8bit \
+    && mkdir -p models/asr/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17 \
     && mkdir -p models/speaker \
     && mkdir -p logs
 # 复制配置和静态文件
@@ -42,7 +42,7 @@ RUN chmod +x docker-entrypoint.sh
 ENV LD_LIBRARY_PATH=/app/lib:/app/lib/ten-vad/lib/Linux/x64
 RUN adduser --disabled-password --gecos "" appuser && chown -R appuser:appuser /app
 USER appuser
-EXPOSE 6000
+EXPOSE 8088
 ENTRYPOINT ["./docker-entrypoint.sh"]
 
 # 使用说明:

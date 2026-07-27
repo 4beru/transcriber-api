@@ -71,15 +71,15 @@ fi
 
 # Create model directories
 mkdir -p models/vad/silero_vad
-mkdir -p models/asr/Fun-ASR-Nano-2512-8bit
+mkdir -p models/asr/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17
 mkdir -p models/speaker
 
-# Download ASR model
-if [[ ! -f "models/asr/Fun-ASR-Nano-2512-8bit/model.onnx" ]] || [[ ! -f "models/asr/Fun-ASR-Nano-2512-8bit/tokens.txt" ]]; then
-    echo -e "${BLUE}Downloading Fun-ASR-Nano-2512-8bit model from ModelScope...${NC}"
+# Download ASR model (SenseVoice Small INT8)
+if [[ ! -f "models/asr/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.int8.onnx" ]] || [[ ! -f "models/asr/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt" ]]; then
+    echo -e "${BLUE}Downloading SenseVoice Small INT8 model from ModelScope...${NC}"
     $PYTHON_CMD -c "
 from modelscope import snapshot_download
-model_dir = snapshot_download('fengge2024/Fun-ASR-Nano-2512-8bit', cache_dir='models_cache')
+model_dir = snapshot_download('fengge2024/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17', cache_dir='models_cache')
 print(f'Model downloaded to: {model_dir}')
 " || {
         echo -e "${RED}✗${NC} Failed to download ASR model"
@@ -87,11 +87,12 @@ print(f'Model downloaded to: {model_dir}')
     }
     
     # Copy model files
-    find models_cache -name "model*.onnx" -exec cp {} models/asr/Fun-ASR-Nano-2512-8bit/model.onnx \;
-    find models_cache -name "tokens.txt" -exec cp {} models/asr/Fun-ASR-Nano-2512-8bit/ \;
-    echo -e "${GREEN}✓${NC} ASR model files installed successfully"
+    find models_cache -name "model*.onnx" -exec cp {} models/asr/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.int8.onnx \; 2>/dev/null || \
+    find models_cache -name "*.onnx" -exec cp {} models/asr/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.int8.onnx \;
+    find models_cache -name "tokens.txt" -exec cp {} models/asr/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/ \;
+    echo -e "${GREEN}✓${NC} SenseVoice ASR model files installed successfully"
 else
-    echo -e "${GREEN}✓${NC} ASR model already exists"
+    echo -e "${GREEN}✓${NC} SenseVoice ASR model already exists"
 fi
 
 # Download VAD model

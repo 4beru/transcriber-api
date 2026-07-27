@@ -21,8 +21,8 @@ echo -e "${GREEN}✓${NC} Library paths configured"
 # Check required model files
 REQUIRED_FILES=(
     "models/vad/silero_vad/silero_vad.onnx"
-    "models/asr/Fun-ASR-Nano-2512-8bit/model.onnx"
-    "models/asr/Fun-ASR-Nano-2512-8bit/tokens.txt"
+    "models/asr/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.int8.onnx"
+    "models/asr/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt"
     "models/speaker/3dspeaker_speech_campplus_sv_zh_en_16k-common_advanced.onnx"
 )
 

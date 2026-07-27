@@ -20,7 +20,7 @@ const (
 	EnvPrefix = "VAD_ASR"
 
 	// Default server settings
-	DefaultServerPort        = 8080
+	DefaultServerPort        = 8088
 	DefaultServerHost        = "0.0.0.0"
 	DefaultMaxConnections    = 1000
 	DefaultReadTimeout       = 30
