@@ -28,7 +28,7 @@ RUN pip3 install --no-cache-dir modelscope
 COPY --from=builder /app/asr_server .
 # 创建模型目录
 RUN mkdir -p models/vad/silero_vad \
-    && mkdir -p models/asr/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17 \
+    && mkdir -p models/asr/Fun-ASR-Nano-2512-8bit \
     && mkdir -p models/speaker \
     && mkdir -p logs
 # 复制配置和静态文件

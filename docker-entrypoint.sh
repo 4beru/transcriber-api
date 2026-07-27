@@ -5,8 +5,8 @@ echo "Checking required model files..."
 
 REQUIRED_FILES=(
     "models/vad/silero_vad/silero_vad.onnx"
-    "models/asr/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.int8.onnx"
-    "models/asr/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt"
+    "models/asr/Fun-ASR-Nano-2512-8bit/model.onnx"
+    "models/asr/Fun-ASR-Nano-2512-8bit/tokens.txt"
     "models/speaker/3dspeaker_speech_campplus_sv_zh_en_16k-common_advanced.onnx"
 )
 
@@ -26,22 +26,22 @@ if [ ${#MISSING_FILES[@]} -ne 0 ]; then
     echo ""
     echo "Attempting to download models automatically..."
 
-    # 下载 ASR 模型 (SenseVoice Small INT8)
-    if [[ ! -f "/app/models/asr/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.int8.onnx" ]]; then
-        echo "Downloading SenseVoice Small INT8 model from ModelScope..."
+    # 下载 ASR 模型 (Fun-ASR-Nano-2512-8bit)
+    if [[ ! -f "/app/models/asr/Fun-ASR-Nano-2512-8bit/model.onnx" ]]; then
+        echo "Downloading Fun-ASR-Nano-2512-8bit model from ModelScope..."
         python3 -c "
 from modelscope import snapshot_download
-model_dir = snapshot_download('fengge2024/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17', cache_dir='/app/models_cache')
+model_dir = snapshot_download('fengge2024/Fun-ASR-Nano-2512-8bit', cache_dir='/app/models_cache')
 print(f'Model downloaded to: {model_dir}')
 " || {
             echo "ERROR: Failed to download ASR model"
             exit 1
         }
-        mkdir -p /app/models/asr/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17
-        find /app/models_cache -name "model*.onnx" -exec cp {} /app/models/asr/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.int8.onnx \; 2>/dev/null || \
-        find /app/models_cache -name "*.onnx" -exec cp {} /app/models/asr/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.int8.onnx \;
-        find /app/models_cache -name "tokens.txt" -exec cp {} /app/models/asr/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/ \;
-        echo "SenseVoice ASR model files installed successfully."
+        mkdir -p /app/models/asr/Fun-ASR-Nano-2512-8bit
+        find /app/models_cache -name "model*.onnx" -exec cp {} /app/models/asr/Fun-ASR-Nano-2512-8bit/model.onnx \; 2>/dev/null || \
+        find /app/models_cache -name "*.onnx" -exec cp {} /app/models/asr/Fun-ASR-Nano-2512-8bit/model.onnx \;
+        find /app/models_cache -name "tokens.txt" -exec cp {} /app/models/asr/Fun-ASR-Nano-2512-8bit/ \;
+        echo "Fun-ASR-Nano ASR model files installed successfully."
     fi
 
     # 下载 VAD 模型
