@@ -39,6 +39,7 @@ COPY lib ./lib
 COPY docker-entrypoint.sh ./
 RUN chmod +x docker-entrypoint.sh
 ENV LD_LIBRARY_PATH=/app/lib:/app/lib/ten-vad/lib/Linux/x64
+ENV GIN_MODE=release
 RUN adduser --disabled-password --gecos "" appuser && chown -R appuser:appuser /app
 USER appuser
 EXPOSE 8088

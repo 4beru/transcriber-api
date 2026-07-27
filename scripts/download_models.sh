@@ -99,7 +99,9 @@ fi
 if [[ ! -f "models/vad/silero_vad/silero_vad.onnx" ]]; then
     echo -e "${BLUE}Downloading Silero VAD model...${NC}"
     wget -q --show-progress -O models/vad/silero_vad/silero_vad.onnx \
-        https://github.com/snakers4/silero-vad/raw/master/files/silero_vad.onnx || {
+        https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx || \
+    wget -q --show-progress -O models/vad/silero_vad/silero_vad.onnx \
+        https://github.com/snakers4/silero-vad/raw/main/files/silero_vad.onnx || {
         echo -e "${RED}✗${NC} Failed to download VAD model"
         exit 1
     }

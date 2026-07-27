@@ -49,7 +49,9 @@ print(f'Model downloaded to: {model_dir}')
         echo "Downloading Silero VAD model..."
         mkdir -p /app/models/vad/silero_vad
         wget -O /app/models/vad/silero_vad/silero_vad.onnx \
-            https://github.com/snakers4/silero-vad/raw/master/files/silero_vad.onnx || {
+            https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx || \
+        wget -O /app/models/vad/silero_vad/silero_vad.onnx \
+            https://github.com/snakers4/silero-vad/raw/main/files/silero_vad.onnx || {
             echo "ERROR: Failed to download VAD model"
             exit 1
         }

@@ -72,6 +72,9 @@ docker build -t asr_server .
 
 # 2. Run the container
 docker run -d -p 8088:8088 --name asr_server asr_server
+
+# 3. (Optional) Check startup & automatic model download logs
+docker logs -f asr_server
 ```
 
 #### Service Endpoints:
@@ -153,6 +156,9 @@ docker build -t asr_server .
 
 # 2. 启动容器
 docker run -d -p 8088:8088 --name asr_server asr_server
+
+# 3. (可选) 查看模型自动下载与服务启动日志
+docker logs -f asr_server
 ```
 
 #### 服务访问地址:
