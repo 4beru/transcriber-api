@@ -1,0 +1,29 @@
+# Docker Ignore File (Production Best Practice)
+
+# 1. Heavy Models & Environments
+models/
+models_cache/
+.venv-models/
+.venv/
+
+# 2. Version Control & IDE Metadata
+.git/
+.gitignore
+.dockerignore
+Dockerfile
+.vscode/
+.claude/
+.idea/
+.mypy_cache/
+.ruff_cache/
+
+# 3. Tests & Documentation
+test/
+docs/
+*.md
+
+# 4. Logs & Temp Data
+logs/
+data/
+*.log
+tmp/

@@ -1,29 +1,30 @@
-# 阶段1：构建二进制文件
+# 阶段1：构建二进制文件 (国际标准化构建)
 FROM golang:1.24-bullseye AS builder
 WORKDIR /app
-RUN sed -i 's|http://deb.debian.org/debian|http://mirrors.aliyun.com/debian|g' /etc/apt/sources.list
+
+# 提供可选构建参数，默认使用官方全局 Proxy
+ARG GOPROXY=https://proxy.golang.org,direct
+ENV GOPROXY=${GOPROXY}
+
 # 安装 gcc/g++ 工具链以支持 cgo
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libc++1 libc++abi1 \
     build-essential
 COPY go.mod go.sum ./
-RUN go env -w GOPROXY=https://goproxy.cn,direct && go mod download
+RUN go mod download
 COPY . .
 RUN go build -ldflags="-s -w" -o asr_server main.go
 
-# 阶段2：最终运行时镜像（量化版本，自动下载模型）
+# 阶段2：最终运行时镜像（标准化国际通用环境）
 FROM ubuntu:22.04 AS final
 WORKDIR /app
-RUN echo "deb http://mirrors.aliyun.com/ubuntu/ jammy main restricted universe multiverse" > /etc/apt/sources.list \
-    && echo "deb http://mirrors.aliyun.com/ubuntu/ jammy-updates main restricted universe multiverse" >> /etc/apt/sources.list \
-    && echo "deb http://mirrors.aliyun.com/ubuntu/ jammy-backports main restricted universe multiverse" >> /etc/apt/sources.list \
-    && echo "deb http://mirrors.aliyun.com/ubuntu/ jammy-security main restricted universe multiverse" >> /etc/apt/sources.list
+
 # 安装依赖和下载工具
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libc++1 libc++abi1 ca-certificates \
     wget git python3 python3-pip
 # 安装 modelscope
-RUN pip3 install --no-cache-dir modelscope -i https://mirrors.aliyun.com/pypi/simple/
+RUN pip3 install --no-cache-dir modelscope
 COPY --from=builder /app/asr_server .
 # 创建模型目录
 RUN mkdir -p models/vad/silero_vad \
@@ -34,8 +35,6 @@ RUN mkdir -p models/vad/silero_vad \
 COPY config.json ./config.json
 COPY static ./static
 COPY lib ./lib
-# 复制本地已有的 VAD 模型
-COPY models ./models
 # 复制启动脚本并设置权限
 COPY docker-entrypoint.sh ./
 RUN chmod +x docker-entrypoint.sh
