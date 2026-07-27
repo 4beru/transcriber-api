@@ -315,6 +315,9 @@ func (m *Manager) ProcessAudioData(sessionID string, audioData []byte) error {
 		return fmt.Errorf("session %s not found", sessionID)
 	}
 
+	session.mu.Lock()
+	defer session.mu.Unlock()
+
 	if atomic.LoadInt32(&session.closed) == 1 {
 		logger.Error("session_already_closed", "session_id", sessionID)
 		return fmt.Errorf("session %s is closed", sessionID)
@@ -329,6 +332,11 @@ func (m *Manager) ProcessAudioData(sessionID string, audioData []byte) error {
 		}
 		session.VADInstance = vadInstance
 		logger.Info("session_assigned_vad", "session_id", sessionID, "type", vadInstance.GetType(), "id", vadInstance.GetID())
+	}
+
+	// Double check VADInstance non-nil
+	if session.VADInstance == nil {
+		return fmt.Errorf("session %s has nil VAD instance", sessionID)
 	}
 
 	// Update session activity

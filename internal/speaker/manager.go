@@ -3,7 +3,6 @@ package speaker
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"math"
 	"os"
 	"path/filepath"
@@ -128,7 +127,7 @@ func (m *Manager) loadDatabase() error {
 		return fmt.Errorf("database file does not exist")
 	}
 
-	data, err := ioutil.ReadFile(m.dbPath)
+	data, err := os.ReadFile(m.dbPath)
 	if err != nil {
 		return fmt.Errorf("failed to read database file: %v", err)
 	}
@@ -151,7 +150,7 @@ func (m *Manager) saveDatabase() error {
 		return fmt.Errorf("failed to marshal database: %v", err)
 	}
 
-	if err := ioutil.WriteFile(m.dbPath, data, 0644); err != nil {
+	if err := os.WriteFile(m.dbPath, data, 0644); err != nil {
 		return fmt.Errorf("failed to write database file: %v", err)
 	}
 

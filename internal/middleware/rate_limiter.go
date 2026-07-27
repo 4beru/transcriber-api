@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"net"
 	"net/http"
 	"strings"
 	"sync"
@@ -121,39 +122,34 @@ func (rl *RateLimiter) performCleanup() {
 	}
 }
 
-// extractClientIP safely extracts the client IP from the request
+// extractClientIP safely extracts and validates the client IP from the request
 func extractClientIP(r *http.Request) string {
 	// Check X-Forwarded-For header (set by reverse proxies)
 	if forwarded := r.Header.Get("X-Forwarded-For"); forwarded != "" {
-		// X-Forwarded-For can contain multiple IPs: "client, proxy1, proxy2"
-		// The first IP is the original client
 		ips := strings.Split(forwarded, ",")
 		if len(ips) > 0 {
 			clientIP := strings.TrimSpace(ips[0])
-			if clientIP != "" {
-				return clientIP
+			if parsed := net.ParseIP(clientIP); parsed != nil {
+				return parsed.String()
 			}
 		}
 	}
 
-	// Check X-Real-IP header (set by some proxies like nginx)
+	// Check X-Real-IP header
 	if realIP := r.Header.Get("X-Real-IP"); realIP != "" {
-		return strings.TrimSpace(realIP)
-	}
-
-	// Fall back to RemoteAddr, removing port if present
-	ip := r.RemoteAddr
-	if colonIdx := strings.LastIndex(ip, ":"); colonIdx != -1 {
-		// Check if it's IPv6 with brackets [::1]:port
-		if bracketIdx := strings.LastIndex(ip, "]"); bracketIdx != -1 && bracketIdx < colonIdx {
-			ip = ip[:colonIdx]
-		} else if strings.Count(ip, ":") == 1 {
-			// IPv4 with port
-			ip = ip[:colonIdx]
+		clientIP := strings.TrimSpace(realIP)
+		if parsed := net.ParseIP(clientIP); parsed != nil {
+			return parsed.String()
 		}
 	}
 
-	return ip
+	// Fall back to RemoteAddr, removing port if present
+	host, _, err := net.SplitHostPort(r.RemoteAddr)
+	if err == nil && host != "" {
+		return host
+	}
+
+	return r.RemoteAddr
 }
 
 // Middleware returns an HTTP middleware that enforces rate limiting

@@ -85,7 +85,12 @@ func (h *Handler) HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 	wsConfig := h.cfg.Server.WebSocket
 
 	if wsConfig.ReadTimeout > 0 {
-		conn.SetReadDeadline(time.Now().Add(time.Duration(wsConfig.ReadTimeout) * time.Second))
+		readTimeout := time.Duration(wsConfig.ReadTimeout) * time.Second
+		conn.SetReadDeadline(time.Now().Add(readTimeout))
+		conn.SetPongHandler(func(string) error {
+			conn.SetReadDeadline(time.Now().Add(readTimeout))
+			return nil
+		})
 	}
 
 	sessionID := GenerateSessionID()
