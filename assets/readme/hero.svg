@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 380" width="100%" height="380" role="img" aria-labelledby="title desc">
-  <title id="title">VAD ASR Server Hero Architecture</title>
+  <title id="title">VAD Transcriber API Hero Architecture</title>
   <desc id="desc">High-Performance Real-Time Speech Recognition and Speaker Verification System Architecture</desc>
   <defs>
     <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -54,7 +54,7 @@
     <text x="12" y="17" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" fill="#38bdf8" letter-spacing="1">SPEECH &amp; AI INFRASTRUCTURE</text>
 
     <!-- Main Title -->
-    <text x="0" y="75" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="44" font-weight="800" fill="#ffffff" letter-spacing="-1">asr_server</text>
+    <text x="0" y="75" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="44" font-weight="800" fill="#ffffff" letter-spacing="-1">transcriber-api</text>
 
     <!-- Subtitle -->
     <text x="0" y="110" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="19" font-weight="500" fill="#9ca3af">High-Performance Real-Time ASR &amp; Speaker ID</text>
